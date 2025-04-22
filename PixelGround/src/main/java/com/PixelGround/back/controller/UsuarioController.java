@@ -62,4 +62,10 @@ public class UsuarioController {
         usuarioService.cambiarPassword(id, nuevaPassword);
         return ResponseEntity.noContent().build();
     }
+    
+    @GetMapping("/email/{email}")
+    public ResponseEntity<UsuarioVO> obtenerPorEmail(@PathVariable String email) {
+        return ResponseEntity.ok(usuarioService.buscarUsuario(email));
+    }
+
 }

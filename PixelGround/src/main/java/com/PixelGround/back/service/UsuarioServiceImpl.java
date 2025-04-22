@@ -23,7 +23,6 @@ public class UsuarioServiceImpl implements UsuarioService {
 
     @Override
     public UsuarioVO crearUsuario(UsuarioVO usuarioVO, String rawPassword) {
-        // Validación: ¿existe ya el email o el nombreUsuario?
         if (usuarioRepository.findByEmail(usuarioVO.getEmail()).isPresent()) {
             throw new IllegalArgumentException("Ya existe un usuario con ese email.");
         }
