@@ -33,9 +33,9 @@ public class SecurityConfig {
         	.cors(cors -> {})
             .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                .requestMatchers("/auth/**", "/api/usuarios/registro").permitAll()
-                .anyRequest().authenticated()
+            	    .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+            	    .requestMatchers("/auth/**", "/api/usuarios/registro", "/ws/**", "/ws-sockjs/**").permitAll()
+            	    .anyRequest().authenticated()
             )
             .addFilterBefore(jwtAuthenticationFilter, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter.class);
 
