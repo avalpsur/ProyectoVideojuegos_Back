@@ -75,4 +75,12 @@ public class UsuarioServiceImpl implements UsuarioService {
         return usuarioOpt.map(UsuarioConverter::toVO)
                 .orElseThrow(() -> new IllegalArgumentException("Usuario no encontrado"));
     }
+    
+    @Override
+    public List<UsuarioVO> buscarUsuariosPorNombre(String nombre) {
+        return usuarioRepository.findByNombreUsuarioContainingIgnoreCase(nombre).stream()
+            .map(UsuarioConverter::toVO)
+            .collect(Collectors.toList());
+    }
+
 }

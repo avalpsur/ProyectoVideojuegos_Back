@@ -33,6 +33,7 @@ public class UsuarioModel {
 
     @Column(nullable = false)
     private LocalDateTime fechaAlta;
+    
 
     public UsuarioModel() {}
 
@@ -68,4 +69,5 @@ public class UsuarioModel {
     public LocalDateTime getFechaAlta() { return fechaAlta; }
 
     public void setFechaAlta(LocalDateTime fechaAlta) { this.fechaAlta = fechaAlta; }
+    
 }

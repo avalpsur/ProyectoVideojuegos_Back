@@ -44,6 +44,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
             if (email != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             	String rol = jwtUtil.getClaim(token, "rol");
+            	System.out.println("Token: " + token);
+            	System.out.println("Email desde token: " + email);
+            	System.out.println("ROL del token: " + rol);
+            	System.out.println("Auth: " + SecurityContextHolder.getContext().getAuthentication());
+
             	UsernamePasswordAuthenticationToken authentication =
             	    new UsernamePasswordAuthenticationToken(
             	        email,
@@ -54,6 +59,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
                 authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                 SecurityContextHolder.getContext().setAuthentication(authentication);
+                System.out.println("Auth después de setear: " + SecurityContextHolder.getContext().getAuthentication());
+
             }
         }
 

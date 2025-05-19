@@ -16,5 +16,6 @@ public interface UsuarioService {
 
     void cambiarPassword(Long id, String nuevaPassword);
 
-    UsuarioVO buscarUsuario(String login);
+    UsuarioVO buscarUsuario(String login);List<UsuarioVO> buscarUsuariosPorNombre(String nombre);
+
 }

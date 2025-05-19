@@ -7,6 +7,7 @@ public class UsuarioVO {
     private String email;
     private String rol;
 
+
     public UsuarioVO() {}
 
     public UsuarioVO(Long id, String nombreUsuario, String email, String rol) {
@@ -31,4 +32,5 @@ public class UsuarioVO {
     public String getRol() { return rol; }
 
     public void setRol(String rol) { this.rol = rol; }
+
 }

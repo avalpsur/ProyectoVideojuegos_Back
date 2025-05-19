@@ -15,8 +15,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.PixelGround.back.config.JwtUtil;
 import com.PixelGround.back.service.UsuarioService;
 import com.PixelGround.back.vo.UsuarioVO;
+
+import jakarta.servlet.http.HttpServletRequest;
 
 @RestController
 @RequestMapping("/api/usuarios")
@@ -24,6 +27,9 @@ public class UsuarioController {
 
     @Autowired
     private UsuarioService usuarioService;
+    
+    @Autowired
+    private JwtUtil jwtUtil;
 
     @PostMapping("/registro")
     public ResponseEntity<UsuarioVO> registrar(@RequestBody Map<String, Object> datos) {
@@ -67,5 +73,20 @@ public class UsuarioController {
     public ResponseEntity<UsuarioVO> obtenerPorEmail(@PathVariable String email) {
         return ResponseEntity.ok(usuarioService.buscarUsuario(email));
     }
+    
+    @GetMapping("/buscar/{nombre}")
+    public ResponseEntity<List<UsuarioVO>> buscarPorNombre(@PathVariable String nombre) {
+        List<UsuarioVO> usuarios = usuarioService.buscarUsuariosPorNombre(nombre);
+        return ResponseEntity.ok(usuarios);
+    }
+
+    @GetMapping("/perfil")
+    public ResponseEntity<UsuarioVO> obtenerPerfil(HttpServletRequest request) {
+        String token = request.getHeader("Authorization").substring(7);
+        String email = jwtUtil.getSubject(token);
+        UsuarioVO usuario = usuarioService.buscarUsuario(email);
+        return ResponseEntity.ok(usuario);
+    }
+
 
 }

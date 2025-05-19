@@ -1,13 +1,19 @@
 package com.PixelGround.back.repository;
 
-import com.PixelGround.back.model.UsuarioModel;
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import java.util.Optional;
+import com.PixelGround.back.model.UsuarioModel;
 
 public interface UsuarioRepository extends JpaRepository<UsuarioModel, Long> {
 
     Optional<UsuarioModel> findByEmail(String email);
 
     Optional<UsuarioModel> findByNombreUsuario(String nombreUsuario);
+    
+    //Búsquedas parciales para el buscador de amistades
+    List<UsuarioModel> findByNombreUsuarioContainingIgnoreCase(String nombreUsuario);
+
 }
