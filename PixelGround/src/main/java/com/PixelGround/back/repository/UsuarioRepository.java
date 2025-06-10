@@ -13,7 +13,6 @@ public interface UsuarioRepository extends JpaRepository<UsuarioModel, Long> {
 
     Optional<UsuarioModel> findByNombreUsuario(String nombreUsuario);
     
-    //Búsquedas parciales para el buscador de amistades
     List<UsuarioModel> findByNombreUsuarioContainingIgnoreCase(String nombreUsuario);
 
 }

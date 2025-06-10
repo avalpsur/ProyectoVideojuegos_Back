@@ -1,27 +1,29 @@
 package com.PixelGround.back.converter;
 
 
-import com.PixelGround.back.model.ListaJuegoModel;
-import com.PixelGround.back.vo.ListaJuegoVO;
-import com.PixelGround.back.model.UsuarioModel;
-
+import java.util.List;
 import java.util.stream.Collectors;
+
+import com.PixelGround.back.model.ListaJuegoModel;
+import com.PixelGround.back.model.UsuarioModel;
+import com.PixelGround.back.vo.ListaJuegoVO;
 
 public class ListaJuegoConverter {
 
-    public static ListaJuegoVO toVO(ListaJuegoModel model) {
-        if (model == null) return null;
+	public static ListaJuegoVO toVO(ListaJuegoModel model) {
+	    if (model == null) return null;
 
-        return new ListaJuegoVO(
-            model.getId(),
-            model.getNombre(),
-            model.getDescripcion(),
-            model.getUsuario().getId(),
-            model.getJuegos().stream()
-                .map(JuegoConverter::toVO)
-                .collect(Collectors.toList())
-        );
-    }
+	    return new ListaJuegoVO(
+	        model.getId(),
+	        model.getNombre(),
+	        model.getDescripcion(),
+	        model.getUsuario().getId(),
+	        model.getJuegos() != null
+	            ? model.getJuegos().stream().map(JuegoConverter::toVO).collect(Collectors.toList())
+	            : List.of()
+	    );
+	}
+
 
     public static ListaJuegoModel toModel(ListaJuegoVO vo, UsuarioModel usuario) {
         if (vo == null) return null;

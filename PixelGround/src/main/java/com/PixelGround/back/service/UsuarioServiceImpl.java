@@ -1,16 +1,17 @@
 package com.PixelGround.back.service;
 
-import com.PixelGround.back.converter.UsuarioConverter;
-import com.PixelGround.back.model.UsuarioModel;
-import com.PixelGround.back.repository.UsuarioRepository;
-import com.PixelGround.back.vo.UsuarioVO;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
+import com.PixelGround.back.converter.UsuarioConverter;
+import com.PixelGround.back.model.UsuarioModel;
+import com.PixelGround.back.repository.UsuarioRepository;
+import com.PixelGround.back.vo.UsuarioVO;
 
 @Service
 public class UsuarioServiceImpl implements UsuarioService {
@@ -82,5 +83,24 @@ public class UsuarioServiceImpl implements UsuarioService {
             .map(UsuarioConverter::toVO)
             .collect(Collectors.toList());
     }
+    
+    @Override
+    public UsuarioVO cambiarRol(Long id, String nuevoRol) {
+        UsuarioModel usuario = usuarioRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+
+        usuario.setRol(nuevoRol.toUpperCase()); 
+        usuarioRepository.save(usuario);
+
+        return UsuarioConverter.toVO(usuario);
+    }
+    
+    @Override
+    public UsuarioVO buscarPorNombreUsuario(String nombreUsuario) {
+        Optional<UsuarioModel> model = usuarioRepository.findByNombreUsuario(nombreUsuario);
+        return model.map(UsuarioConverter::toVO)
+                    .orElseThrow(() -> new RuntimeException("Usuario no encontrado con nombreUsuario: " + nombreUsuario));
+    }
+
 
 }

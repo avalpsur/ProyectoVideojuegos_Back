@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.PixelGround.back.config.JwtUtil;
+import com.PixelGround.back.dto.CambioRolDTO;
 import com.PixelGround.back.service.UsuarioService;
 import com.PixelGround.back.vo.UsuarioVO;
 
@@ -74,6 +76,13 @@ public class UsuarioController {
         return ResponseEntity.ok(usuarioService.buscarUsuario(email));
     }
     
+    @GetMapping("/username/{nombreUsuario}")
+    public ResponseEntity<UsuarioVO> obtenerPorNombreUsuario(@PathVariable String nombreUsuario) {
+        UsuarioVO usuario = usuarioService.buscarPorNombreUsuario(nombreUsuario);
+        return ResponseEntity.ok(usuario);
+    }
+
+    
     @GetMapping("/buscar/{nombre}")
     public ResponseEntity<List<UsuarioVO>> buscarPorNombre(@PathVariable String nombre) {
         List<UsuarioVO> usuarios = usuarioService.buscarUsuariosPorNombre(nombre);
@@ -87,6 +96,17 @@ public class UsuarioController {
         UsuarioVO usuario = usuarioService.buscarUsuario(email);
         return ResponseEntity.ok(usuario);
     }
+    
+    @PreAuthorize("hasRole('ADMIN')")
+    @PutMapping("/{id}/cambiar-rol")
+    public ResponseEntity<UsuarioVO> cambiarRol(
+            @PathVariable Long id,
+            @RequestBody CambioRolDTO request) {
+
+        UsuarioVO actualizado = usuarioService.cambiarRol(id, request.getNuevoRol());
+        return ResponseEntity.ok(actualizado);
+    }
+
 
 
 }

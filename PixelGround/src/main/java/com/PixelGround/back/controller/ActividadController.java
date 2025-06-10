@@ -1,6 +1,8 @@
 package com.PixelGround.back.controller;
 
+import com.PixelGround.back.model.JuegoModel;
 import com.PixelGround.back.model.UsuarioModel;
+import com.PixelGround.back.repository.JuegoRepository;
 import com.PixelGround.back.repository.UsuarioRepository;
 import com.PixelGround.back.service.ActividadService;
 import com.PixelGround.back.config.JwtUtil;
@@ -25,7 +27,30 @@ public class ActividadController {
     private UsuarioRepository usuarioRepository;
 
     @Autowired
+    private JuegoRepository juegoRepository;
+
+    @Autowired
     private JwtUtil jwtUtil;
+
+    @PostMapping("/registrar")
+    public ResponseEntity<Void> registrarActividad(@RequestBody ActividadVO actividadVO, HttpServletRequest request) {
+        Long usuarioId = getUsuarioIdDesdeToken(request);
+
+        UsuarioModel usuario = usuarioRepository.findById(usuarioId)
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+
+        JuegoModel juego = juegoRepository.findByApiId(actividadVO.getJuegoApiId())
+                .orElseThrow(() -> new RuntimeException("Juego no encontrado"));
+
+        actividadService.registrarActividad(
+                usuario,
+                juego,
+                actividadVO.getTipo(),
+                actividadVO.getContenidoExtra()
+        );
+
+        return ResponseEntity.ok().build();
+    }
 
     @GetMapping("/feed")
     public ResponseEntity<List<ActividadVO>> obtenerFeed(HttpServletRequest request) {

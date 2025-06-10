@@ -2,6 +2,7 @@ package com.PixelGround.back.service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -55,7 +56,6 @@ public class VotacionServiceImpl implements VotacionService {
 
         votacion = votacionRepository.save(votacion);
 
-        // Registrar actividad
         String contenidoExtra = "{\"puntuacion\": " + vo.getPuntuacion() + "}";
         actividadService.registrarActividad(usuario, juego, "voto", contenidoExtra);
 
@@ -69,7 +69,19 @@ public class VotacionServiceImpl implements VotacionService {
                     .map(VotacionConverter::toVO)
                     .toList();
     }
+    
+   /* @Override
+    public Optional<Integer> obtenerPuntuacionDeUsuario(String email, String juegoApiId) {
+        UsuarioModel usuario = usuarioRepository.findByEmail(email)
+            .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
 
+        JuegoModel juego = juegoRepository.findByApiId(juegoApiId)
+            .orElseThrow(() -> new RuntimeException("Juego no encontrado"));
+
+        return votacionRepository.findByUsuarioAndJuego(usuario, juego)
+            .map(VotacionModel::getPuntuacion);
+    }
+*/
 
 }
 

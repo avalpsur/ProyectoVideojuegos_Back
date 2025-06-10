@@ -1,18 +1,27 @@
 package com.PixelGround.back.controller;
 
-import com.PixelGround.back.config.JwtUtil;
-import com.PixelGround.back.dto.SolicitudAmistadDTO;
-import com.PixelGround.back.service.AmistadService;
-import com.PixelGround.back.service.UsuarioService;
-import com.PixelGround.back.vo.UsuarioVO;
-import com.PixelGround.back.vo.AmistadVO;
+import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.PixelGround.back.config.JwtUtil;
+import com.PixelGround.back.dto.SolicitudAmistadDTO;
+import com.PixelGround.back.model.UsuarioModel;
+import com.PixelGround.back.repository.UsuarioRepository;
+import com.PixelGround.back.service.AmistadService;
+import com.PixelGround.back.service.UsuarioService;
+import com.PixelGround.back.vo.AmistadVO;
+import com.PixelGround.back.vo.UsuarioVO;
 
 import jakarta.servlet.http.HttpServletRequest;
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/amistades")
@@ -23,6 +32,9 @@ public class AmistadController {
 
     @Autowired
     private UsuarioService usuarioService;
+    @Autowired
+    
+    private UsuarioRepository usuarioRepository;
 
     @Autowired
     private JwtUtil jwtUtil;
@@ -34,11 +46,21 @@ public class AmistadController {
     }
 
     @PostMapping("/solicitar")
-    public ResponseEntity<Void> enviarSolicitud(HttpServletRequest request, @RequestBody SolicitudAmistadDTO dto) {
-        Long solicitanteId = getUsuarioIdDesdeToken(request);
-        amistadService.enviarSolicitud(solicitanteId, dto.getReceptorId());
+    public ResponseEntity<Void> solicitarAmistad(@RequestBody Map<String, Object> body, HttpServletRequest request) {
+        String token = request.getHeader("Authorization").replace("Bearer ", "");
+        String email = jwtUtil.getSubject(token);
+        UsuarioModel solicitante = usuarioRepository.findByEmail(email)
+            .orElseThrow(() -> new RuntimeException("Solicitante no encontrado"));
+
+        Object raw = body.get("receptor");
+        if (raw == null) return ResponseEntity.badRequest().build();
+        Long idReceptor = Long.valueOf(raw.toString());
+
+        amistadService.enviarSolicitud(solicitante.getId(), idReceptor);
         return ResponseEntity.ok().build();
     }
+
+
 
     @PostMapping("/aceptar")
     public ResponseEntity<Void> aceptarSolicitud(HttpServletRequest request, @RequestBody SolicitudAmistadDTO dto) {
