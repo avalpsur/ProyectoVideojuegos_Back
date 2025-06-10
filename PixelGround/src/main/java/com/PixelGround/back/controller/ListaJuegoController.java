@@ -52,7 +52,11 @@ public class ListaJuegoController {
         }
 
         String token = authHeader.substring(7);
-        Long usuarioId = Long.parseLong(jwtUtil.getSubject(token));
+        String email = jwtUtil.getSubject(token); 
+
+        UsuarioModel usuario = usuarioRepository.findByEmail(email)
+            .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+        Long usuarioId = usuario.getId();
 
         listaJuegoService.añadirJuegoALista(listaId, juegoVO, usuarioId);
         return ResponseEntity.ok().build();
