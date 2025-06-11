@@ -34,6 +34,9 @@ public class UsuarioModel {
     @Column(nullable = false)
     private LocalDateTime fechaAlta;
     
+    @Column(name = "steam_id", nullable = true)
+    private String steamId;
+    
 
     public UsuarioModel() {}
 
@@ -69,5 +72,13 @@ public class UsuarioModel {
     public LocalDateTime getFechaAlta() { return fechaAlta; }
 
     public void setFechaAlta(LocalDateTime fechaAlta) { this.fechaAlta = fechaAlta; }
+    
+	public String getSteamId() {
+	    return steamId;
+	}
+	
+	public void setSteamId(String steamId) {
+	    this.steamId = steamId;
+	}
     
 }

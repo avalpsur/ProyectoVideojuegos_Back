@@ -6,6 +6,8 @@ public class UsuarioVO {
     private String nombreUsuario;
     private String email;
     private String rol;
+    private String steamId;
+
 
 
     public UsuarioVO() {}
@@ -32,5 +34,14 @@ public class UsuarioVO {
     public String getRol() { return rol; }
 
     public void setRol(String rol) { this.rol = rol; }
+    
+    public String getSteamId() {
+        return steamId;
+    }
+
+    public void setSteamId(String steamId) {
+        this.steamId = steamId;
+    }
+
 
 }

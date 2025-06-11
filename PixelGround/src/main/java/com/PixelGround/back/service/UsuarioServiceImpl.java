@@ -101,6 +101,14 @@ public class UsuarioServiceImpl implements UsuarioService {
         return model.map(UsuarioConverter::toVO)
                     .orElseThrow(() -> new RuntimeException("Usuario no encontrado con nombreUsuario: " + nombreUsuario));
     }
+    
+    @Override
+    public void vincularSteamPorEmail(String email, String steamId) {
+        UsuarioModel usuario = usuarioRepository.findByEmail(email)
+            .orElseThrow(() -> new RuntimeException("Usuario no encontrado con email: " + email));
 
+        usuario.setSteamId(steamId);
+        usuarioRepository.save(usuario);
+    }
 
 }

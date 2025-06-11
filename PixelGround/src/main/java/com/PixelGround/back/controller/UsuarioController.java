@@ -6,6 +6,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,9 +16,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
 
 import com.PixelGround.back.config.JwtUtil;
 import com.PixelGround.back.dto.CambioRolDTO;
+import com.PixelGround.back.model.UsuarioModel;
+import com.PixelGround.back.repository.UsuarioRepository;
 import com.PixelGround.back.service.UsuarioService;
 import com.PixelGround.back.vo.UsuarioVO;
 
@@ -32,6 +36,9 @@ public class UsuarioController {
     
     @Autowired
     private JwtUtil jwtUtil;
+    
+    @Autowired
+    private UsuarioRepository usuarioRepository;
 
     @PostMapping("/registro")
     public ResponseEntity<UsuarioVO> registrar(@RequestBody Map<String, Object> datos) {
@@ -106,7 +113,53 @@ public class UsuarioController {
         UsuarioVO actualizado = usuarioService.cambiarRol(id, request.getNuevoRol());
         return ResponseEntity.ok(actualizado);
     }
+    
+    @GetMapping("/vincularSteam")
+    public ResponseEntity<String> vincularSteam(@RequestParam("openid.claimed_id") String claimedId,
+                                                Authentication authentication) {
+        if (claimedId == null || authentication == null) {
+            return ResponseEntity.badRequest().body("Faltan parámetros o autenticación");
+        }
 
+        String email = authentication.getName();
+        String steamId = claimedId.replace("https://steamcommunity.com/openid/id/", "");
+
+        usuarioService.vincularSteamPorEmail(email, steamId);
+
+        return ResponseEntity.ok("Cuenta Steam vinculada correctamente");
+    }
+    
+    @SuppressWarnings("unchecked")
+
+    @GetMapping("/steam/juegos")
+    public ResponseEntity<?> obtenerJuegosSteam(Authentication authentication) {
+        String email = authentication.getName(); // el 'sub' del JWT
+
+        UsuarioModel usuario = usuarioRepository.findByEmail(email)
+            .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+
+        if (usuario.getSteamId() == null) {
+            return ResponseEntity.badRequest().body("El usuario no tiene Steam vinculado");
+        }
+
+        String url = "https://api.steampowered.com/IPlayerService/GetOwnedGames/v1/"
+            + "?key=2426C2307771FCDF454C70731D33725E"
+            + "&steamid=" + usuario.getSteamId()
+            + "&include_appinfo=true"
+            + "&include_played_free_games=true";
+
+        RestTemplate restTemplate = new RestTemplate();
+        Map<String, Object> response = restTemplate.getForObject(url, Map.class);
+
+        if (response == null || !response.containsKey("response")) {
+            return ResponseEntity.status(502).body("Error al contactar con Steam");
+        }
+
+        Map<String, Object> responseBody = (Map<String, Object>) response.get("response");
+        List<Map<String, Object>> juegos = (List<Map<String, Object>>) responseBody.getOrDefault("games", List.of());
+
+        return ResponseEntity.ok(juegos);
+    }
 
 
 }

@@ -35,9 +35,9 @@ public class SecurityConfig {
             .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                .requestMatchers("/auth/**", "/api/usuarios/registro","/api/usuarios/perfil", "/ws/**", "/ws-sockjs/**").permitAll()
+                .requestMatchers("/auth/**", "/api/usuarios/registro","/api/usuarios/perfil", "/ws/**", "/ws-sockjs/**","/api/steam/login","/api/usuarios/vincularSteam").permitAll()
 
-                .requestMatchers("/api/amistades/**","/api/usuarios/buscar/**","/api/usuarios/username/**").hasAnyRole("JUGADOR", "ADMIN")
+                .requestMatchers("/api/amistades/**","/api/usuarios/buscar/**","/api/usuarios/username/**","/api/usuarios/steam/**","/api/steam/**").hasAnyRole("JUGADOR", "ADMIN")
                 .requestMatchers("/api/usuarios/buscar/**").hasAnyRole("JUGADOR", "ADMIN")
                 .requestMatchers("/api/usuarios/**").hasRole("ADMIN")
 

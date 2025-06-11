@@ -21,5 +21,8 @@ public interface UsuarioService {
     UsuarioVO cambiarRol(Long id, String nuevoRol);
     
     public UsuarioVO buscarPorNombreUsuario(String nombreUsuario);
+    
+    void vincularSteamPorEmail(String email, String steamId);
+
 
 }

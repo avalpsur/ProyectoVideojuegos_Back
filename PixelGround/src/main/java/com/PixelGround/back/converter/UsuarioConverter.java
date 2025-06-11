@@ -7,16 +7,19 @@ import java.time.LocalDateTime;
 
 public class UsuarioConverter {
 
-    public static UsuarioVO toVO(UsuarioModel model) {
-        if (model == null) return null;
+	public static UsuarioVO toVO(UsuarioModel model) {
+	    if (model == null) return null;
 
-        return new UsuarioVO(
-            model.getId(),
-            model.getNombreUsuario(),
-            model.getEmail(),
-            model.getRol()
-        );
-    }
+	    UsuarioVO vo = new UsuarioVO(
+	        model.getId(),
+	        model.getNombreUsuario(),
+	        model.getEmail(),
+	        model.getRol()
+	    );
+	    vo.setSteamId(model.getSteamId());
+	    return vo;
+	}
+
 
     public static UsuarioModel toModel(UsuarioVO vo, String hashedPassword) {
         if (vo == null) return null;
@@ -28,7 +31,9 @@ public class UsuarioConverter {
         model.setPassword(hashedPassword);
         model.setRol(vo.getRol());
         model.setFechaAlta(LocalDateTime.now());
+        model.setSteamId(vo.getSteamId()); 
 
         return model;
     }
+
 }
