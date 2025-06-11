@@ -13,4 +13,5 @@ public interface ActividadRepository extends JpaRepository<ActividadModel, Long>
 
     List<ActividadModel> findByUsuarioInOrderByFechaDesc(List<UsuarioModel> usuarios);
 
+
 }

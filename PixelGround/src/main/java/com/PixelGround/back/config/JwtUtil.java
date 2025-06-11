@@ -50,5 +50,16 @@ public class JwtUtil {
             return false;
         }
     }
+    
+    public boolean tieneRol(String token, String rol) {
+        try {
+            String tokenLimpio = token.replace("Bearer ", "");
+            String rolExtraido = getClaim(tokenLimpio, "rol");
+            return rolExtraido != null && rolExtraido.equalsIgnoreCase(rol);
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
 }
 

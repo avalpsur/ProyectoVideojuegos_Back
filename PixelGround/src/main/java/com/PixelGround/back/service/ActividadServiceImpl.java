@@ -61,6 +61,6 @@ public class ActividadServiceImpl implements ActividadService {
             .map(ActividadConverter::toVO)
             .toList();
     }
-
+    
 }
 

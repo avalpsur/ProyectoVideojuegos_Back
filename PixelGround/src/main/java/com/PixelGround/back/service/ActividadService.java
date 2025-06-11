@@ -11,4 +11,5 @@ public interface ActividadService {
     void registrarActividad(UsuarioModel usuario, JuegoModel juego, String tipo, String contenidoExtra);
 
     List<ActividadVO> obtenerFeedUsuarioYAmigos(Long usuarioId);
+
 }

@@ -1,6 +1,7 @@
 package com.PixelGround.back.vo;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class ActividadVO {
 
@@ -90,6 +91,7 @@ public class ActividadVO {
     public void setFecha(LocalDateTime fecha) {
         this.fecha = fecha;
     }
+
 }
 
 
