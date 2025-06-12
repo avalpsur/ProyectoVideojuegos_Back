@@ -1,2 +1,11 @@
 # ProyectoVideojuegos_Back
-Back-End con Spring del Proyecto Integrado basado en una comunidad de videojuegos
+Back-End en Spring del Proyecto Integrado basado en una comunidad de videojuegos
+
+# MANUAL DE PRODUCCIÓN DE PIXELGROUND EN UNA INSTANCIA EC2 DE AWS
+- La aplicación estará en marcha en una instancia EC2 de AWS. Lo primero que debemos hacer para alojar nuestra web en AWS es crear una instancia EC2 (Ubuntu 22.04). 
+Antes de conectarnos mediante ssh deberemos abrir los puertos necesarios para el back, el front y mySQL, tanto http como https. Para ello modificaremos las reglas de entrada en el apartado de seguridad de nuestra instancia de AWS y abriremos los puertos 3306 (mySQL), 8080 (Angular), 80 (http), 443 (https) y 22 (ssh). 
+Una vez configurados los puertos, deberemos entrar en la instancia con ssh mediante nuestra clave "pem", generada previamente para poder establecer la conexión entre nuestro equipo y aws. Dentro de la instancia, estableceremos el árbol de nuestro proyecto para tener claro la ubicación de cada archivo a la hora de ponerlo en producción. En este caso será               PixelGround/ProyectoVideojuegosBack/PixelGround y PixelGround/ProyectoVideojuegosFront/PixelGround-Front. Dentro del último directorio de cada proyecto es donde estará el código tanto del back como del front, que habremos clonado previamente de git. Como hay un repositorio para back y otro para front, deberemos crear dos "Dockerfile" distintos, con un docker-compose.yml en el directorio raíz del proyecto.
+
+- El siguiente paso será crear los Dockerfiles, archivos de configuración de los contenedores. En ellos estableceremos la configuración cuando arranquemos dichos contenedores, como los comandos o las rutas a las que accederán tanto back como front, además del docker-compose.yml que los gestiona. Como la capa gratuita de AWS únicamente permite crear instancias t2.micro, que no sobrepasa las 2g de RAM, se ha tenido que arrancar el proyecto en local (para que la instancia no entrara en un bucle infinito por falta de memoria) y enviar el directorio "/dist" a la nube, puesto que de otra forma no se podrían utilizar las variables de entorno.
+
+- Una vez configurados estos archivos correctamente ya podremos dirigirnos a nuestra web, configurar https y la ip dinámica.
