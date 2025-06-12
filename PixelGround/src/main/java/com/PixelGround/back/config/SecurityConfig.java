@@ -34,15 +34,33 @@ public class SecurityConfig {
             .cors(cors -> {})
             .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                .requestMatchers("/auth/**", "/api/usuarios/registro","/api/usuarios/perfil", "/ws/**", "/ws-sockjs/**","/api/steam/login","/api/usuarios/vincularSteam").permitAll()
+            	    .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+            	    .requestMatchers(
+            	        "/api/auth/**",
+            	        "/api/usuarios/registro",
+            	        "/api/usuarios/perfil",
+            	        "/ws/**",
+            	        "/ws-sockjs/**",
+            	        "/api/steam/login",
+            	        "/api/usuarios/vincularSteam"
+            	    ).permitAll()
 
-                .requestMatchers("/api/amistades/**","/api/usuarios/buscar/**","/api/usuarios/username/**","/api/usuarios/steam/**","/api/steam/**","api/foro/**").hasAnyRole("JUGADOR", "ADMIN")
-                .requestMatchers("/api/usuarios/buscar/**").hasAnyRole("JUGADOR", "ADMIN")
-                .requestMatchers("/api/usuarios/**").hasRole("ADMIN")
+            	    .requestMatchers(
+            	        "/api/usuarios/buscar/**",
+            	        "/api/usuarios/username/**",
+            	        "/api/usuarios/steam/**",
+            	        "/api/steam/**",
+            	        "/api/foro/**",
+            	        "/api/usuarios/feed",
+            	        "/api/usuario/**",
+            	        "/api/retos/**"
+            	    ).hasAnyRole("JUGADOR", "ADMIN")
 
-                .anyRequest().authenticated()
-            )
+            	    .requestMatchers("/api/usuarios/**").hasRole("ADMIN")
+
+            	    .anyRequest().authenticated()
+            	)
+
             .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();

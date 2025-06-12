@@ -16,7 +16,7 @@ import com.PixelGround.back.model.UsuarioModel;
 import com.PixelGround.back.repository.UsuarioRepository;
 
 @RestController
-@RequestMapping("/auth")
+@RequestMapping("/api/auth")
 public class AuthController {
 
     @Autowired

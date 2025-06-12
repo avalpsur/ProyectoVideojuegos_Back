@@ -160,6 +160,35 @@ public class UsuarioController {
 
         return ResponseEntity.ok(juegos);
     }
+    
+    @GetMapping("/steam/juegos/{usuarioId}")
+    public ResponseEntity<?> obtenerJuegosDeUsuarioPorId(@PathVariable Long usuarioId) {
+        UsuarioModel usuario = usuarioRepository.findById(usuarioId)
+            .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+
+        if (usuario.getSteamId() == null) {
+            return ResponseEntity.badRequest().body("El usuario no tiene Steam vinculado");
+        }
+
+        String url = "https://api.steampowered.com/IPlayerService/GetOwnedGames/v1/"
+            + "?key=2426C2307771FCDF454C70731D33725E"
+            + "&steamid=" + usuario.getSteamId()
+            + "&include_appinfo=true"
+            + "&include_played_free_games=true";
+
+        RestTemplate restTemplate = new RestTemplate();
+        Map<String, Object> response = restTemplate.getForObject(url, Map.class);
+
+        if (response == null || !response.containsKey("response")) {
+            return ResponseEntity.status(502).body("Error al contactar con Steam");
+        }
+
+        Map<String, Object> responseBody = (Map<String, Object>) response.get("response");
+        List<Map<String, Object>> juegos = (List<Map<String, Object>>) responseBody.getOrDefault("games", List.of());
+
+        return ResponseEntity.ok(juegos);
+    }
+
 
 
 }
