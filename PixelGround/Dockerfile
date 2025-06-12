@@ -4,4 +4,4 @@ WORKDIR /app
 
 COPY target/*.jar pixelground-back.jar
 
-ENTRYPOINT ["java", "-jar", "pixelground-back.jar"]
+ENTRYPOINT ["java", "-jar", "pixelground-back.jar", "--spring.profiles.active=prod"]
