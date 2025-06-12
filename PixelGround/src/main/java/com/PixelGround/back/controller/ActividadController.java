@@ -23,7 +23,7 @@ import com.PixelGround.back.vo.ActividadVO;
 import jakarta.servlet.http.HttpServletRequest;
 
 @RestController
-@RequestMapping("/actividad")
+@RequestMapping("/api/actividad")
 public class ActividadController {
 
     @Autowired
