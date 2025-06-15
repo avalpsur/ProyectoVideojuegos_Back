@@ -7,8 +7,7 @@ public class UsuarioVO {
     private String email;
     private String rol;
     private String steamId;
-
-
+    private boolean perfilPublico;
 
     public UsuarioVO() {}
 
@@ -19,22 +18,38 @@ public class UsuarioVO {
         this.rol = rol;
     }
 
-    public Long getId() { return id; }
+    public Long getId() {
+        return id;
+    }
 
-    public void setId(Long id) { this.id = id; }
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-    public String getNombreUsuario() { return nombreUsuario; }
+    public String getNombreUsuario() {
+        return nombreUsuario;
+    }
 
-    public void setNombreUsuario(String nombreUsuario) { this.nombreUsuario = nombreUsuario; }
+    public void setNombreUsuario(String nombreUsuario) {
+        this.nombreUsuario = nombreUsuario;
+    }
 
-    public String getEmail() { return email; }
+    public String getEmail() {
+        return email;
+    }
 
-    public void setEmail(String email) { this.email = email; }
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
-    public String getRol() { return rol; }
+    public String getRol() {
+        return rol;
+    }
 
-    public void setRol(String rol) { this.rol = rol; }
-    
+    public void setRol(String rol) {
+        this.rol = rol;
+    }
+
     public String getSteamId() {
         return steamId;
     }
@@ -43,5 +58,13 @@ public class UsuarioVO {
         this.steamId = steamId;
     }
 
+    public boolean isPerfilPublico() {
+        return perfilPublico;
+    }
 
+    public void setPerfilPublico(boolean perfilPublico) {
+        this.perfilPublico = perfilPublico;
+    }
 }
+
+

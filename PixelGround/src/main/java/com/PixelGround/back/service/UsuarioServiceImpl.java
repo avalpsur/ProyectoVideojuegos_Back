@@ -110,5 +110,6 @@ public class UsuarioServiceImpl implements UsuarioService {
         usuario.setSteamId(steamId);
         usuarioRepository.save(usuario);
     }
+    
 
 }

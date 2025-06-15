@@ -1,24 +1,19 @@
 package com.PixelGround.back.vo;
 
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 public class ListaJuegoVO {
 
     private Long id;
     private String nombre;
     private String descripcion;
-    private Long usuarioId;
-    private List<JuegoVO> juegos;
+    private Long usuarioId; 
+    private Set<String> juegosId = new HashSet<>();
+    private boolean publica;
+    private Set<Long> miembrosId = new HashSet<>();
 
-    public ListaJuegoVO() {}
-
-    public ListaJuegoVO(Long id, String nombre, String descripcion, Long usuarioId, List<JuegoVO> juegos) {
-        this.id = id;
-        this.nombre = nombre;
-        this.descripcion = descripcion;
-        this.usuarioId = usuarioId;
-        this.juegos = juegos;
-    }
+    // Getters y setters
 
     public Long getId() {
         return id;
@@ -52,11 +47,27 @@ public class ListaJuegoVO {
         this.usuarioId = usuarioId;
     }
 
-    public List<JuegoVO> getJuegos() {
-        return juegos;
+    public Set<String> getJuegosId() {
+        return juegosId;
     }
 
-    public void setJuegos(List<JuegoVO> juegos) {
-        this.juegos = juegos;
+    public void setJuegosId(Set<String> juegosId) {
+        this.juegosId = juegosId;
+    }
+
+    public boolean isPublica() {
+        return publica;
+    }
+
+    public void setPublica(boolean publica) {
+        this.publica = publica;
+    }
+
+    public Set<Long> getMiembrosId() {
+        return miembrosId;
+    }
+
+    public void setMiembrosId(Set<Long> miembrosId) {
+        this.miembrosId = miembrosId;
     }
 }

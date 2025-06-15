@@ -48,19 +48,19 @@ public class SteamController {
     
     @GetMapping("/login")
     public void redirigirSteamLogin(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        String returnTo = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort()
-                + "/api/usuarios/vincularSteam";
+        String returnTo = request.getScheme() + "://" + request.getServerName() + ":4200/steam-callback";
 
         String steamLoginUrl = "https://steamcommunity.com/openid/login"
                 + "?openid.ns=http://specs.openid.net/auth/2.0"
                 + "&openid.mode=checkid_setup"
                 + "&openid.return_to=" + URLEncoder.encode(returnTo, StandardCharsets.UTF_8)
-                + "&openid.realm=" + request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort()
+                + "&openid.realm=" + request.getScheme() + "://" + request.getServerName() + ":4200"
                 + "&openid.identity=http://specs.openid.net/auth/2.0/identifier_select"
                 + "&openid.claimed_id=http://specs.openid.net/auth/2.0/identifier_select";
 
         response.sendRedirect(steamLoginUrl);
     }
+
 
 
 }

@@ -15,8 +15,10 @@ public class UsuarioConverter {
 	        model.getNombreUsuario(),
 	        model.getEmail(),
 	        model.getRol()
+	        
 	    );
 	    vo.setSteamId(model.getSteamId());
+	    vo.setPerfilPublico(model.isPerfilPublico());
 	    return vo;
 	}
 
@@ -32,7 +34,9 @@ public class UsuarioConverter {
         model.setRol(vo.getRol());
         model.setFechaAlta(LocalDateTime.now());
         model.setSteamId(vo.getSteamId()); 
-
+        model.setPerfilPublico(
+        	    vo.getId() == null ? true : vo.isPerfilPublico()
+        	);
         return model;
     }
 

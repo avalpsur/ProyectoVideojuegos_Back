@@ -1,8 +1,9 @@
 package com.PixelGround.back.service;
 
-import com.PixelGround.back.vo.UsuarioVO;
-
 import java.util.List;
+
+import com.PixelGround.back.model.UsuarioModel;
+import com.PixelGround.back.vo.UsuarioVO;
 
 public interface UsuarioService {
 
@@ -23,6 +24,6 @@ public interface UsuarioService {
     public UsuarioVO buscarPorNombreUsuario(String nombreUsuario);
     
     void vincularSteamPorEmail(String email, String steamId);
-
+    
 
 }

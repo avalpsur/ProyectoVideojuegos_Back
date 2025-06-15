@@ -7,4 +7,6 @@ import java.util.List;
 
 public interface ListaJuegoRepository extends JpaRepository<ListaJuegoModel, Long> {
     List<ListaJuegoModel> findByUsuario(UsuarioModel usuario);
+    
+    List<ListaJuegoModel> findByPublicaTrue();
 }

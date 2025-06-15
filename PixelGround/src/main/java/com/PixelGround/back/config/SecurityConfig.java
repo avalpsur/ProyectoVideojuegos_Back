@@ -38,12 +38,12 @@ public class SecurityConfig {
             	    .requestMatchers(
             	        "/api/auth/**",
             	        "/api/usuarios/registro",
+            	        "/api/usuarios/registro-admin",
             	        "/api/usuarios/perfil",
             	        "/ws/**",
             	        "/ws-sockjs/**",
-            	        "/api/steam/login",
-            	        "/api/usuarios/vincularSteam"
-            	    ).permitAll()
+            	        "/api/steam/login"
+            	        ).permitAll()
 
             	    .requestMatchers(
             	        "/api/usuarios/buscar/**",
@@ -53,11 +53,11 @@ public class SecurityConfig {
             	        "/api/foro/**",
             	        "/api/usuarios/feed",
             	        "/api/usuario/**",
-            	        "/api/retos/**"
+            	        "/api/retos/**",
+            	        "/api/listas/**",
+            	        "/api/usuarios/vincularSteam"
             	    ).hasAnyRole("JUGADOR", "ADMIN")
-
-            	    .requestMatchers("/api/usuarios/**").hasRole("ADMIN")
-
+            	    
             	    .anyRequest().authenticated()
             	)
 

@@ -34,6 +34,9 @@ public class UsuarioModel {
     @Column(nullable = false)
     private LocalDateTime fechaAlta;
     
+    @Column(nullable = false)
+    private boolean perfilPublico = true;
+    
     @Column(name = "steam_id", nullable = true)
     private String steamId;
     
@@ -79,6 +82,14 @@ public class UsuarioModel {
 	
 	public void setSteamId(String steamId) {
 	    this.steamId = steamId;
+	}
+	
+	public boolean isPerfilPublico() {
+	    return perfilPublico;
+	}
+
+	public void setPerfilPublico(boolean perfilPublico) {
+	    this.perfilPublico = perfilPublico;
 	}
     
 }
